@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Revealer - Reveal.js multiplexer</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link rel="stylesheet" href="components/reveal.js/css/reveal.min.css">
+        <link rel="stylesheet" href="components/reveal.js/css/theme/default.css" id="theme">
+        <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+        <script src="components/reveal.js/js/reveal.min.js"></script>
+        <!-- Socket.io client-->
+        <script src="/js/vendor.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/js/config.js"></script>
+        <script src="assets/js/script.js"></script>
+        <script src="https://use.fontawesome.com/a54721d3a3.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <style>
+            canvas {
+            margin-top:-48%;
+            margin-bottom:10%;
+            background-color:transparent;
+            border:solid 1px blue;
+            margin-right:50%;
+        }
+        </style>
+
+    </head>
+    <body>
+        <div class="hello">
+            <button onclick="showCanvas()"><i class="fa fa-pencil-square-o fa-3x" aria-hidden="true" tooltip="Edit"></i>Edit</button>
+            <button onclick="hideCanvas()"><i class="fa fa-ban fa-3x" aria-hidden="true" tooltip="Edit"></i>Close</button>
+            <button id="clear" onclick="test()"><i class="fa fa-times fa-3x" aria-hidden="true"></i>Clear</button>
+        </div>
+        <div class="reveal container-fluid">
+            <!-- Any section element inside of this container is displayed as a slide -->
+            <div class="slides" >
+                <section>
+                    <h1>Network Programming</h1>
+                    <h3></h3>
+                </section>
+                <section>
+                    <h1>Interactive Classroom</h1>
+                    <h3></h3>
+                </section>
+                <section>
+                    <h1>Problems faced</h1>
+                        <p class="fragment roll-in">Adding embedded ppt to webpage, made tracking events difficult.</p>
+                        <p class="fragment roll-in">Html event handlers cannot be used for iframe tags.</p>
+                        <p class="fragment roll-in">Changing to fullscreen mode, changes current window.</p>
+                        <p class="fragment roll-in">Editing over embedded ppts not possible due to cross origin domain.</p>
+                        <p class="fragment roll-in">Ajax and Http request too complex to handle dynamic events.</p>
+                </section>
+                <section>
+                    <h1>Proposed model</h1>
+                    <p class="fragment roll-in">Make ppt using Markup(HTML) Language.</p>
+                    <p class="fragment roll-in">Added a layer of canvas over html and manipulated it with javascript.</p>
+                    <p class="fragment roll-in">Communicate with clients using WebSockets.</p>
+                </section>
+                <section>
+                    <img src="components/socket.png">
+                    <p class="fragment grow">Implementation</p>
+                </section>
+                <section>
+                    <h1>How it has been made?</h1>
+                    <h2>Technologies used:-</h2>
+                    <p class="fragment roll-in">Html</p>
+                    <p class="fragment roll-in">Css</p>
+                    <p class="fragment roll-in">Node js and socket.io(Server side)</p>
+                    <p class="fragment roll-in">Reveal.js(Client Side)</p>
+                </section>
+                <section>
+                    <h2>Benefits of Interactive classroom:-</h2>
+                    <p class="fragment roll-in">Interactivity</p>
+                    <p class="fragment roll-in">Interest</p>
+                    <p class="fragment roll-in">Shifting from Notebook-based model to Databased model</p>
+                    <p class="fragment roll-in">Practical aspects can be easily explained.</p>
+                </section>
+                <section>
+                    <h2>Further improvements:</h2>
+                    <p class="fragment shrink">Allowing students to submit real time media.</p>
+                    <p class="fragment shrink">Tests, Exams can be taken on this platform.</p>
+                    <p class="fragment shrink">Can be accessed from anywhere.</p>
+                    <p class="fragment shrink">Can be shared easily.</p>
+                </section>
+                <section>
+                    <h2 class="fragment grow">Thank You</h2>
+                </section>
+            </div>
+        </div>
+        <script>
+            (function(){
+
+              Reveal.initialize({
+                history: true
+              });
+              
+              var socket = io.connect(host);
+
+              socket.on('slidechanged', function (data) {
+                Reveal.slide(data.indexh, data.indexv, data.indexf);
+              });
+            })();
+        </script>
+        <script>
+        (function(){
+            var socket = io.connect(host);
+            socket.on('clickEvent',  function(message) {
+                var canvas = document.getElementById('canvas1');
+                var context = canvas.getContext('2d');
+                context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+            });
+        })();
+        </script>
+        <script>
+        </script>
+    </body>
+</html>
